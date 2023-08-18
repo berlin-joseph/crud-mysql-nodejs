@@ -12,11 +12,11 @@ const Create = () => {
 
   //
   const handleSubmit = (e) => {
-    e.preventdefault();
+    e.preventDefault();
     axios
       .post("http://localhost:3000/create", { firstName, lastName, email })
       .then((res) => {
-        console.log(res);
+        console.log(res.data);
         navigate("/");
       })
       .catch((err) => console.log(err));
