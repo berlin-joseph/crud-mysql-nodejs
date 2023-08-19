@@ -9,13 +9,13 @@ const Update = () => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
-  const id = useParams();
-
+  const { id } = useParams();
   //
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .put("http://localhost:3000/update/" + id, {
+      .put(`http://localhost:3000/update/${id}`, {
+        // Use template literals
         firstName,
         lastName,
         email,
@@ -78,7 +78,7 @@ const Update = () => {
           }}
         >
           <Button variant="outlined" type="submit" fullWidth>
-            update
+            Update
           </Button>
         </Box>
       </form>

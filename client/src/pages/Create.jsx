@@ -14,7 +14,7 @@ const Create = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:3000/create", { firstName, lastName, email })
+      .post(`http://localhost:3000/create`, { firstName, lastName, email })
       .then((res) => {
         console.log(res.data);
         navigate("/");

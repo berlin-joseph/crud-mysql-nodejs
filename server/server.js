@@ -17,7 +17,7 @@ dotenv.config({ path: path.join(__dirname, ".", "config", "config.env") });
 //db calling
 db;
 
-//
+//get api -
 app.get("/", (req, res) => {
   db.query("SELECT * FROM Students", (err, data) => {
     if (err) {
@@ -28,36 +28,48 @@ app.get("/", (req, res) => {
   });
 });
 
-//
+//post api - 
 app.post("/create", (req, res) => {
-  db.query(
-    "INSERT INTO Students(first_name,last_name,email) VALUES(?,?,?)",
-    [req.body.firstName, req.body.lastName, req.body.email],
-    (err, data) => {
-      if (err) {
-        return console.log(err);
-      } else {
-        return res.json(data);
-      }
+  const sql = "INSERT INTO Students(first_name,last_name,email) VALUES(?,?,?)";
+  const value = [req.body.firstName, req.body.lastName, req.body.email];
+  db.query(sql, [...value], (err, data) => {
+    if (err) {
+      return console.log(err);
+    } else {
+      return res.json(data);
     }
-  );
+  });
 });
 
-//
+//put api -
 app.put("/update/:id", (req, res) => {
-  db.query(
-    "UPDATE Students SET firstName = ? lastName = ? email = ? WHERE ID = ?",
-    [req.body.firstName, req.body.lastName, req.body.email,req.params.id],
-    (err, data) => {
-      if (err) {
-        return console.log(err);
-      } else {
-        return res.json(data);
-      }
+  const sql =
+    "UPDATE Students SET first_name = ? , last_name = ?, email = ? WHERE ID = ?";
+  const value = [req.body.firstName, req.body.lastName, req.body.email];
+  const id = req.params.id;
+  db.query(sql, [...value, id], (err, data) => {
+    if (err) {
+      return res.json(err);
+    } else {
+      return res.json(data);
     }
-  );
+  });
 });
 
+//delete api -
+app.delete("/delete/:id", (req, res) => {
+  const sql = "DELETE FROM STUDENTS WHERE ID = ?";
+  const id = req.params.id;
+  db.query(sql, [id], (err, data) => {
+    if (err) {
+      return res.json(err);
+    } else {
+      return res.json(data);
+    }
+  });
+});
+
+//server listening
 app.listen(process.env.PORT, () =>
   console.log(`Example app listening on port ${process.env.PORT}!`)
 );

@@ -12,14 +12,26 @@ import EditIcon from "@mui/icons-material/Edit";
 import { useState } from "react";
 import { Button } from "@mui/material";
 
+
 export default function IndexPage() {
   const [student, setStudent] = useState([]);
+
   useEffect(() => {
     axios
-      .get("http://localhost:3000/")
+      .get(`http://localhost:3000/`)
       .then((res) => setStudent(res.data))
       .catch((err) => console.log(err));
   }, []);
+
+  //Delete Handler
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:3000/delete/${id}`);
+      window.location.reload();
+    } catch (error) {
+      console.error("Delete failed:", error);
+    }
+  };
 
   return (
     <TableContainer component={Paper}>
@@ -34,17 +46,22 @@ export default function IndexPage() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {student.map((row, index) => (
+          {student.map((student, index) => (
             <TableRow key={index}>
-              <TableCell align="center">{row.id}</TableCell>
-              <TableCell align="center">{row.first_name}</TableCell>
-              <TableCell align="center">{row.last_name}</TableCell>
-              <TableCell align="center">{row.email}</TableCell>
+              <TableCell align="center">{index + 1}</TableCell>
+              <TableCell align="center">{student.first_name}</TableCell>
+              <TableCell align="center">{student.last_name}</TableCell>
+              <TableCell align="center">{student.email}</TableCell>
               <TableCell align="center">
-                <Button href={`/edit/${row.id}`} startIcon={<EditIcon />}>
+                <Button href={`/update/${student.id}`} startIcon={<EditIcon />}>
                   EDIT
                 </Button>
-                <Button startIcon={<DeleteIcon />}>DELETE</Button>
+                <Button
+                  onClick={() => handleDelete(student.id)}
+                  startIcon={<DeleteIcon />}
+                >
+                  DELETE
+                </Button>
               </TableCell>
             </TableRow>
           ))}
