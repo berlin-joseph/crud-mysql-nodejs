@@ -43,6 +43,21 @@ app.post("/create", (req, res) => {
   );
 });
 
+//
+app.put("/update/:id", (req, res) => {
+  db.query(
+    "UPDATE Students SET firstName = ? lastName = ? email = ? WHERE ID = ?",
+    [req.body.firstName, req.body.lastName, req.body.email,req.params.id],
+    (err, data) => {
+      if (err) {
+        return console.log(err);
+      } else {
+        return res.json(data);
+      }
+    }
+  );
+});
+
 app.listen(process.env.PORT, () =>
   console.log(`Example app listening on port ${process.env.PORT}!`)
 );

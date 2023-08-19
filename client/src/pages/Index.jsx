@@ -34,14 +34,16 @@ export default function IndexPage() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {student.map((row) => (
-            <TableRow key={row.id}>
+          {student.map((row, index) => (
+            <TableRow key={index}>
               <TableCell align="center">{row.id}</TableCell>
               <TableCell align="center">{row.first_name}</TableCell>
               <TableCell align="center">{row.last_name}</TableCell>
               <TableCell align="center">{row.email}</TableCell>
               <TableCell align="center">
-                <Button startIcon={<EditIcon />}>EDIT</Button>
+                <Button href={`/edit/${row.id}`} startIcon={<EditIcon />}>
+                  EDIT
+                </Button>
                 <Button startIcon={<DeleteIcon />}>DELETE</Button>
               </TableCell>
             </TableRow>
